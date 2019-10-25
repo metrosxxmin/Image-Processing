@@ -9,6 +9,12 @@ filter_img = zeros(x, y);
 
 % applying average filter 
 if strcmp(type, 'avr')
+	for i = 1 : x
+		for j = 1 : y
+			mean_1D = mean(pad_img(i : i+filter_size-1, j : j+filter_size-1));
+			filter_img(i, j) = mean(mean_1D);
+		end
+	end
 
 % applying weighted average filter
 elseif strcmp(type, 'weight')
@@ -24,3 +30,11 @@ elseif strcmp(type, 'sobel')
 
 % applying unsharped filter
 elseif strcmp(type, 'unsharp')
+
+
+end
+
+
+filter_img = uint8(filter_img);
+end
+
