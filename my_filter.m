@@ -20,12 +20,13 @@ if strcmp(type, 'avr')
 elseif strcmp(type, 'weight')
 	mask = [1:pad_size+1 pad_size:-1:1]' * [1:pad_size+1 pad_size:-1:1];
         s = sum(sum(mask));
-    	for i = 1 : x
-       		for j = 1 : y
-			sum_1D = sum(double(pad_img(i : i+filter_size-1,j : j+filter_size-1)).*mask);
-           		filter_img(i, j) = sum(sum_1D)/s; 
-       		end
-	end
+        for i = 1 : x
+                for j = 1 : y
+                        sum_1D = sum(double(pad_img(i : i+filter_size-1,j : j+filter_size-1)).*mask);
+                        filter_img(i, j) = sum(sum_1D)/s;
+                end
+        end
+	
 % applying laplacian filter
 elseif strcmp(type, 'laplacian')
 
