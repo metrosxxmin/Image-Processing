@@ -32,6 +32,12 @@ elseif strcmp(type, 'laplacian')
 
 % applying median filter
 elseif strcmp(type, 'median')
+	for i = 1 : x
+        	for j = 1 : y
+			median_1D = median(double(pad_img(i : i+filter_size-1,j : j+filter_size-1)));
+            		filter_img(i, j) = median(median_1D); 
+        	end
+    	end
 
 % applying sobel filter
 elseif strcmp(type, 'sobel')
