@@ -41,7 +41,19 @@ elseif strcmp(type, 'median')
 
 % applying sobel filter
 elseif strcmp(type, 'sobel')
+	v_img = zeros(x, y);
+	h_img = zeros(x, y);
 
+	v_mask = [1 : pad_size+1 pad_size : -1 : 1]' * [-pad_size : pad_size];
+    	h_mask = v_mask';
+    	for i = 1 : x
+        	for j = 1 : y
+			temp = double(pad_img(i:i+filter_size-1,j:j+filter_size-1));
+            		v_img(i, j) = sum(sum(temp.*v_mask)); 
+            		h_img(i, j) = sum(sum(temp.*h_mask)); 
+            		filter_img(i, j) = v_img(i, j) + h_img(i, j);
+        	end
+    	end
 % applying unsharped filter
 elseif strcmp(type, 'unsharp')
 
