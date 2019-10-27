@@ -56,8 +56,17 @@ elseif strcmp(type, 'sobel')
     	end
 % applying unsharped filter
 elseif strcmp(type, 'unsharp')
-
-
+	k = 0.5;
+	mask = zeros(filter_size);
+	mask(ceil(filter_size / 2), ceil(filter_size / 2)) = 1;
+	A = 1/9 * ones(filter_size);
+	mask = (1 / (1-k)) * mask - (k / (1-k)) * A;
+	for i = 1 : x
+		for j = 1 : y
+			sum_1D = sum(double(pad_img(i : i+filter_size-1, j : j+filter_size-1)).* mask)
+			filter_img(i, j) = sum(sum_1D);
+		end
+	end
 end
 
 
