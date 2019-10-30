@@ -29,6 +29,13 @@ elseif strcmp(type, 'weight')
 	
 % applying laplacian filter
 elseif strcmp(type, 'laplacian')
+	mask = ones(filter_size); 
+    mask(ceil(filter_size/2),ceil(filter_size/2)) = -1*(filter_size*filter_size - 1);
+    for i = 1 : x
+        for j = 1 : y
+            filter_img(i, j) = sum(sum(double(pad_img(i : i+filter_size-1, j : j+filter_size-1)).*mask)); 
+        end
+    end
 
 % applying median filter
 elseif strcmp(type, 'median')
