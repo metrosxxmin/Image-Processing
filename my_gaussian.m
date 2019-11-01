@@ -2,11 +2,6 @@ function filter_img = my_gaussian(img, filter_size, sigma)
 %  img: Image.     dimension (X x Y)
 %  fil_size: Filter maks(kernel)'s size.  type: (uint8)
 %  sigma: Sigma value of gaussian filter.  type: (double)
-% 201502090 _ soomin Lee
-function filter_img = my_gaussian(img, filter_size, sigma)
-%  img: Image.     dimension (X x Y)
-%  fil_size: Filter maks(kernel)'s size.  type: (uint8)
-%  sigma: Sigma value of gaussian filter.  type: (double)
 pad_size = floor(filter_size/2);
 pad_img = my_padding(img, pad_size, 'mirror');
 [x, y] = size(img);
