@@ -44,6 +44,22 @@ if strcmp(type, 'within')
     end
 
 elseif strcmp(type, 'between')
+    for i = 0 : 255
+        q1 = q1 + img_PDF(i + 1);
+        q2 = total - q1;
+        if (q1 == 0 || q2 == 0)
+            continue;
+        end
+        meanOf1 = meanOf1 + (i + 1)*img_PDF(i + 1);
+        meanOf2 = mG - meanOf1;
+        m1 = meanOf1/q1;
+        m2 = meanOf2/q2;
+        between = q1*q2*(m1 - m2)^2
+        if (between > max)
+            level = i + 1;
+            max = between;
+        end
+    end
 
 end
 thres_img = uint8(img);
