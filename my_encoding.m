@@ -73,3 +73,89 @@ for i = 1 : N : row
 end
 
 % 5. Zigzag scanning
+zig = {};
+for a = 1 : N : row
+  for b = 1 : N : col
+
+    temp_block = after_img(a:a+N-1,b:b+N-1);
+    V = zeros(1,N*N);
+    block_row=1;	block_col=1;	block_index=1;
+    countZero = 0;
+
+    while block_row <= N && block_col <= N
+        if block_row == 1 && mod(block_row + block_col, 2) == 0 && block_col ~= N
+            V(block_index) = temp_block(block_row ,block_col);
+            if temp_block(block_row ,block_col) == 0
+                countZero = countZero + 1;
+            else
+                countZero = 0;
+            end
+
+            block_col = block_col+1;
+            block_index = block_index+1;
+
+        elseif block_row == N && mod(block_row + block_col,2)~=0 && block_col ~= N
+            V(block_index) = temp_block(block_row,block_col);
+            if temp_block(block_row ,block_col) == 0
+                countZero = countZero + 1;
+            else
+                countZero = 0;
+            end
+            block_col = block_col+1;
+            block_index = block_index+1;
+
+        elseif block_col == 1 && mod(block_row + block_col, 2) ~= 0 && block_row ~= N
+            V(block_index) = temp_block(block_row, block_col);
+            if temp_block(block_row ,block_col) == 0
+                countZero = countZero + 1;
+            else
+                countZero = 0;
+            end
+            block_row = block_row+1;
+            block_index = block_index+1;
+
+        elseif block_col == N && mod(block_row + block_col,2) == 0 && block_row ~= N
+            V(block_index) = temp_block(block_row,block_col);
+                if temp_block(block_row ,block_col) == 0
+                    countZero = countZero + 1;
+                else
+                    countZero = 0;
+                end
+            block_row = block_row+1;
+            block_index = block_index+1;
+
+        elseif block_col~=1 && block_row ~= N && mod(block_row+block_col,2) ~= 0
+            V(block_index) = temp_block(block_row,block_col);
+                if temp_block(block_row ,block_col) == 0
+                    countZero = countZero + 1;
+                else
+                    countZero = 0;
+                end
+            block_row = block_row+1;
+            block_col = block_col-1;
+            block_index = block_index+1;
+
+        elseif block_row~=1 && block_col ~= N && mod(block_row+block_col,2) == 0
+            V(block_index) = temp_block(block_row,block_col);
+                if temp_block(block_row ,block_col) == 0
+                    countZero = countZero + 1;
+                else
+                    countZero = 0;
+                end
+            block_row = block_row-1;
+            block_col = block_col+1;
+            block_index = block_index+1;
+
+        elseif block_row == N && block_col == N
+            break
+        end
+    end
+    result = (N*N) - countZero;
+    V(result) = 777;
+    zig{end+1} = V(1:result);
+  end
+end
+
+zigzag = zig;
+
+end
