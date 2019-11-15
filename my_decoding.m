@@ -91,7 +91,35 @@ for i = 1 : N : row
 end
 
 % 3. Apply Inverse DCT
+block_after = zeros(N);
+C_uv = 2/N*ones(N);
+C_uv(1, 1) = C_uv(1, 1)/2;
+C_uv(2:N, 1) = C_uv(2:N, 1) * sqrt(2)/2;
+C_uv(1, 2:N) = C_uv(1, 2:N) * sqrt(2)/2;
 
+for i = 1 : N : row
+  for j = 1 : N : col
+      
+    block = after_img(i:i+N-1,j:j+N-1);
+    for u = 0 : N - 1
+      for v = 0 : N - 1
+          
+        F_block = 0;
+        for a = 0 : N - 1
+          for b = 0 : N - 1
+            cosValue = cos((((2*u)+1)*a*pi)/(2*N)) * cos((((2*v)+1)*b*pi)/(2*N));
+            temp = block(a+1,b+1) * cosValue;
+            F_block = F_block + ( C_uv(a+1, b+1) * temp);
+          end
+        end
+        
+        block_after(u+1,v+1) = F_block;
+      end
+    end
+    
+    after_img(i:i+N-1,j:j+N-1) = block_after(1:N, 1:N);
+  end
+end
 
 % 4. Add 128
 after_img = after_img + 128;
