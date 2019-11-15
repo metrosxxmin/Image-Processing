@@ -2,9 +2,77 @@ function img = my_decoding(zigzag,row,col)
 % Compress Image using portion of JPEG
 % zigzag : result of zigzag scanning
 % img    : GrayScale Image
+N=8;
+after_img = zeros(row,col);
 
 % 1. Construct 8x8 blocks using zigzag scanning value
-
+count = 1;
+for a = 1 : N : row
+  for b = 1 : N : col
+      
+    temp_block = zeros(N,N);
+    V = zigzag{count};
+    block_row=1;	block_col=1;	block_index=1;
+    
+    while block_row <= N && block_col <= N
+        if block_row == 1 && mod(block_row + block_col,2) == 0 && block_col ~= N
+            if V(block_index) == 777
+                break;
+            end
+            temp_block(block_row ,block_col) = V(block_index);
+            block_col = block_col+1;			
+            block_index = block_index+1;
+		
+        elseif block_row == N && mod(block_row + block_col,2) ~= 0 && block_col ~= N
+            if V(block_index) == 777
+                break;
+            end
+            temp_block(block_row ,block_col) = V(block_index);
+            block_col = block_col+1;					
+            block_index = block_index+1;
+		
+        elseif block_col == 1 && mod(block_row + block_col,2) ~= 0 && block_row ~= N
+            if V(block_index) == 777
+                break;
+            end
+            temp_block(block_row ,block_col) = V(block_index);
+            block_row = block_row+1;						
+            block_index = block_index+1;
+	
+        elseif block_col == N && mod(block_row+block_col,2) == 0 && block_row ~= N
+            if V(block_index) == 777
+                break;
+            end
+            temp_block(block_row ,block_col) = V(block_index);
+            block_row = block_row+1;							
+            block_index = block_index+1;
+		
+        elseif block_col ~= 1 && block_row ~= N && mod(block_row + block_col,2) ~= 0
+            if V(block_index) == 777
+                break;
+            end
+            temp_block(block_row ,block_col) = V(block_index);
+            block_row = block_row+1;		
+            block_col = block_col-1;	
+            block_index = block_index+1;
+		
+        elseif block_row ~= 1 && block_col ~= N && mod(block_row + block_col,2) == 0
+            if V(block_index) == 777
+                break;
+            end
+            temp_block(block_row ,block_col) = V(block_index);
+            block_row = block_row-1;		
+            block_col = block_col+1;	
+            block_index = block_index+1;
+		
+        elseif block_row == N && block_col == N	
+            break						
+        end
+    end 
+        after_img(a:a+N-1, b:b+N-1) = temp_block(1:N,1:N);
+        count = count + 1;
+  end
+end
 
 % 2. Multiply Quantization Table
 tableOfLuminance = [16 11 10 16 24 40 51 61; 
