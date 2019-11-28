@@ -6,6 +6,27 @@ function img = my_connected(img)
 % recursive find 1 value
 %set(0, 'RecursionLimit', 3000)
 
+img = -img;
+
+[height, width] = size(img);
+pad_img = zeros(height + 2, width + 2);
+pad_img(2:height + 1, 2:width + 1) = img(1:height, 1:width);
+
+c = 1;
+
+for x = 2 : height + 1
+    for y = 2 : width + 1
+        if  pad_img(x, y) < 0
+            pad_img(x, y) = c;
+            pad_img = my_recursive_label(pad_img, y, x, height, width, c);
+            c = c + 1;
+        end
+    end
+end
+
+img = pad_img(2 : height + 1, 2 : width + 1);
+s = 255 / c;
+img = uint8(img * s);
 
 end
 
