@@ -21,4 +21,24 @@ function img = my_recursive_label(img, y, x, height, width, c)
 % Recursively find -1 and ignore 0
 % Recursion in matlab should receive result of 'call by value'
 
+if  img(x - 1, y) < 0
+    img(x - 1, y) = c;
+    img = my_recursive_label(img, y, x - 1, height, width, c);
+end
+        
+if img(x, y - 1) < 0
+    img(x, y - 1) = c;
+    img = my_recursive_label(img, y - 1, x, height, width, c);
+end
+        
+if img(x, y + 1) < 0
+    img(x, y + 1) = c;
+    img = my_recursive_label(img, y + 1, x, height, width, c);
+end
+        
+if img(x + 1, y) < 0
+    img(x + 1, y) = c;
+    img = my_recursive_label(img, y, x + 1, height, width, c);
+end
+
 end
